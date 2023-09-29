@@ -1,0 +1,47 @@
+USE [PassOfficeDB]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Pass](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[TypeId] [smallint] NOT NULL,
+	[IssueDate] [smalldatetime] NOT NULL,
+	[ValidFrom] [smalldatetime] NOT NULL,
+	[ValidTo] [smalldatetime] NULL,
+	[StatusId] [smallint] NOT NULL,
+	[UserId] [int] NOT NULL,
+ CONSTRAINT [PK_Pass] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Pass] SET (LOCK_ESCALATION = AUTO)
+GO
+
+ALTER TABLE [dbo].[Pass]  WITH CHECK ADD  CONSTRAINT [FK_Pass_PassStatus] FOREIGN KEY([StatusId])
+REFERENCES [dbo].[PassStatus] ([Id])
+GO
+
+ALTER TABLE [dbo].[Pass] CHECK CONSTRAINT [FK_Pass_PassStatus]
+GO
+
+ALTER TABLE [dbo].[Pass]  WITH CHECK ADD  CONSTRAINT [FK_Pass_PassType] FOREIGN KEY([TypeId])
+REFERENCES [dbo].[PassType] ([Id])
+GO
+
+ALTER TABLE [dbo].[Pass] CHECK CONSTRAINT [FK_Pass_PassType]
+GO
+
+ALTER TABLE [dbo].[Pass]  WITH CHECK ADD  CONSTRAINT [FK_Pass_User] FOREIGN KEY([UserId])
+REFERENCES [dbo].[User] ([Id])
+GO
+
+ALTER TABLE [dbo].[Pass] CHECK CONSTRAINT [FK_Pass_User]
+GO
